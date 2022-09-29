@@ -24,18 +24,39 @@ sp.on("open", () => {
   console.log("serial port open");
 });
 var dStr = "";
-var tdata = []; // Array
+var readData="";
+var temp="";
+var humi='';
+var lux="";
+var mdata=[];
+var firstcommaidx=0;
+var secondcommaidx=0;
 
 parser.on("data", (data) => {
   // call back when data is received
   // raw data only
   //console.log(data);
+  readData = data.toString();
+  firstcommaidx=readData.indexOf(",");
+  secondcommaidx=readData.indexOf(",",firstcommaidx + 1);
+  if (firstcommaidx >0){
+    lux=readData.substring(0,firstcommaidx);
+    humi=readData.substring(firstcommaidx +1,secondcommaidx);
+    temp=readData.substring(secondcommaidx +1);
+    readData="";
+
 
   dStr = getDateString();  
-  tdata[0] = dStr; // data
-  tdata[1] = data;
-  console.log("AA13," + tdata.toString());
-  io.sockets.emit("message", tdata); // send data to all clients
+  mdata[0]=dStr;
+  mdata[1]=lux;
+  mdata[2]=humi;
+  mdata[3]=temp;
+
+  console.log("AA21," + mdata.toString());
+  io.sockets.emit("message", mdata); // send data to all clients
+  }else{
+    console.log(readData);
+  }
 });
 
 io.sockets.on("connection", function (socket) {
