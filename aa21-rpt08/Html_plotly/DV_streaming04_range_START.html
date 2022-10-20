@@ -12,7 +12,6 @@
     <script>
       var arrayLength = 30;
       var newArray = [];
-      
       // initial 30 data
       for (var i = 0; i < arrayLength; i++) {
         var y = Math.round(Math.random() * 10) + 1;
@@ -20,7 +19,6 @@
       }
       var data = [
         {
-          
           y: newArray,
           mode: "lines",
           line: { color: "#80CAF6" },
@@ -31,18 +29,15 @@
       var cnt = 0;
       var interval = setInterval(function () {
         var y = Math.round(Math.random() * 10) + 1;
-        var time=new Date();
-        
         newArray = newArray.concat(y); // add new data
         newArray.splice(0, 1); //remove the oldest data
         var update = {
-         
           y: [newArray],
         };
         Plotly.update("graph", update);
         cnt++;
         if (cnt === 50) clearInterval(interval);
-      }, 200);
+      }, 1000);
     </script>
   </body>
 </html>

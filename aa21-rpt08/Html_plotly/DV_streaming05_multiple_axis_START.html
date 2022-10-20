@@ -30,8 +30,8 @@
       var trace2 = {
       	x: [],
       	y: [],
-      	xaxis: 'x2',
-      	yaxis: 'y2',
+      	xaxis: '',
+      	yaxis: '',
       	mode: 'lines',
       	line: {color: '#DF56F1'},
       	name: 'data2'
@@ -40,22 +40,19 @@
       var layout = {
       	xaxis: {
       		type: 'date',
-      		domain: [0, 1],
-            //   showticklabels: false,
+      		domain: [0, 1]
       	},
-      	yaxis: {domain:[0,0.4] },
-        //   domain:[0.6,1]
+      	yaxis: {domain: },
       	xaxis2: {
       		type: 'date',
-      		anchor: 'y2',
+      		anchor: '',
       		domain: [0, 1],
-      		 showticklabels: false,  // 중요!
+      		showticklabels: false  // 중요!
       	},
       	yaxis2: {
-      		anchor: 'x2',
-      		domain:[0.6,1] },
-      	};
-        //   domain:[0,0.4]
+      		anchor: '',
+      		domain: },
+      	}
 
       	var data = [trace1,trace2];
 
@@ -66,10 +63,10 @@
       	var interval = setInterval(function() {
       		var time = new Date();
       		var update = {
-      			x: [[time],[time] ],
-      			y:[[rand()],[rand()] ],
-      		};
-      		Plotly.extendTraces('graph', update, [0,1])
+      			x: [],
+      			y: []
+      		}
+      		Plotly.extendTraces('graph', update, [])
       		// cnt++;
       		if(cnt === 100) clearInterval(interval);
       	}, 1000);

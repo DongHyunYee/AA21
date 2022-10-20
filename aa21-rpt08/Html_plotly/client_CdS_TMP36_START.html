@@ -17,7 +17,7 @@
     <!-- 1st gauge -->
     <canvas id="gauge1"> </canvas>  
     <!-- 2nd gauge -->
-    <canvas id="gauge2"> </canvas>  
+    
 </div>
 
 <h3 align="center"> on Time: <span id="time"> </span> </h3> 
@@ -33,11 +33,11 @@
     
     var tArray = [], // time of data arrival
         xTrack = [], // value of sensor 1 : temperature
-        yTrack = [],// value of sensor 2 : Luminosity
+         // value of sensor 2 : Luminosity
         numPts = 50, // number of data points in x-axis                
         dtda = [],  // 1 x 3 array : [date, data1, data2] from sensors
         preX = -1,
-        preY = -1,
+         = -1,
         initFlag = true;
 
     var socket = io.connect('http://localhost:3000'); // port = 3000  
@@ -47,23 +47,23 @@
             if(msg[0]!='' && initFlag){
                 dtda[0]=msg[0];
                 dtda[1]=parseFloat(msg[1]);  // temperature
-                dtda[2]=parseInt(msg[2]);    // Luminosity
+                dtda[2]=;    // Luminosity
                 init();  // start streaming
                 initFlag=false;
             }
             dtda[0]=msg[0];
-            dtda[1] = parseFloat(msg[1]); 
+            dtda[1] = ; 
             dtda[2] = parseInt(msg[2]); 
 
             // Only when any of temperature or Luminosity is different from 
             // the previous one, the screen is redrawed.
             if (dtda[1] != preX || dtda[2] != preY) {  // any change?
                 preX = dtda[1];  
-                preY = dtda[2];
+                preY = ;
 
                 ctime.innerHTML = dtda[0];
-                gauge_temp.setValue(dtda[1])  // temp gauge
-                gauge_lux.setValue(dtda[2]);  // lux gauge
+                gauge_temp.setValue()  // temp gauge
+                gauge_lux.setValue();  // lux gauge
                 //nextPt();                                
                 tArray = tArray.concat(dtda[0]);  // time
                 tArray.splice(0,1);
@@ -73,8 +73,8 @@
                 yTrack.splice(0, 1)
 
                 var update = {
-                    x: [tArray, tArray],
-                    y: [xTrack, yTrack]
+                    x: [],
+                    y: []
                 }
                 Plotly.update(streamPlot, update);
             }                    
@@ -86,7 +86,7 @@
         for ( i = 0; i < numPts; i++) {
             tArray.push(dtda[0]);  // date 
             xTrack.push(dtda[1]);  // sensor 1 (temp)
-            yTrack.push(dtda[2]);  // sensor 2 (lux)
+            yTrack.push();  // sensor 2 (lux)
         }
 
         Plotly.newPlot(streamPlot, data, layout);
@@ -111,8 +111,8 @@
           }
       }
   }, {
-    x : xArray,
-    y : yTrack,
+    x : ,
+    y : ,
     name : 'luminosity',
     xaxis: 'x2',
     yaxis : 'y2',

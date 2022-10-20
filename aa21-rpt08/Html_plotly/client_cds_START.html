@@ -42,10 +42,10 @@
             console.log(msg[0]);
             console.log(parseInt(msg[1])); // Convert value to integer
             dtda[0]=msg[0];
-            dtda[1] = ; 
+            dtda[1] = parseInt(msg[1]); 
 
             // when new data is coming, keep on streaming data           
-            ctime.innerHTML = ;
+            ctime.innerHTML = dtda[0];
             nextPt();                                
         });
     }); 
@@ -95,12 +95,12 @@
     var layout = {
         xaxis : {
             title : 'time',
-            domain : 
+            domain : [0,1]
         },
         yaxis : {
             title : 'luminosity (lux)',
-            domain : 
-            range : 
+            domain : [0,1],
+            range :[0,500]
         }
     };
 

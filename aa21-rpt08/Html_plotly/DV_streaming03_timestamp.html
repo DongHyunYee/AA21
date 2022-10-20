@@ -5,7 +5,7 @@
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   </head>
   <body>
-    <h2>Timestamp data streaming </h2>
+    <h2> Timestamp data streaming </h2>
     <div id="graph"></div>
 
     <script>
@@ -16,10 +16,10 @@
       var time = new Date();
       var data = [
         {
-          x: [time],
-          y: [rand()],
-          mode: "lines",
-          line: {color: "50CAF6"},
+          x:[time],
+          y:[rand()],
+          mode:"lines",
+          line:{color:"#80CAF6"},
         },
       ];
 
@@ -30,14 +30,14 @@
       var interval = setInterval(function () {
 
         var time = new Date();
-         var update = {
-           x: [[time]],
-           y: [[rand()]],
-         };
+        var update = {
+          x:[[time]],
+          y:[[rand()]],
+        };
         Plotly.extendTraces("graph", update, [0]);
 
         if (cnt === 100) clearInterval(interval);
-      }, 200);
+      }, 1000);
     </script>
   </body>
 </html>

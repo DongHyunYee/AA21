@@ -46,17 +46,18 @@
 
             // when new data is coming, keep on streaming data           
             ctime.innerHTML = dtda[0];
-            // nextPt();  
-            tArray = tArray.concat(dtda[0]);
+            //nextPt();   
+            tArray =tArray.concat(dtda[0]);
             tArray.splice(0,1);
             xTrack=xTrack.concat(dtda[1]);
             xTrack.splice(0,1);
-            
-            var update ={
-                x: [tArray],
-                y: [xTrack]
+
+            var update = {
+                x:[tArray],
+                y:[xTrack]
             }
-            Plotly.update(streamPlot, update);
+
+            Plotly.update(streamPlot,update);
         });
     }); 
 
@@ -105,12 +106,12 @@
     var layout = {
         xaxis : {
             title : 'time',
-            domain : [0,1] 
+            domain : [0,1]
         },
         yaxis : {
             title : 'luminosity (lux)',
             domain : [0,1],
-            range : true
+            range :[0,500]
         }
     };
 

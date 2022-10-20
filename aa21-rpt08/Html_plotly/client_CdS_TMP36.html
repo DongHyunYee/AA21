@@ -1,14 +1,17 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <head>  
   <meta charset="utf-8">
-  <title>plotly.js client: Real time signals from sensors</title> 
+  <title>plotly.js client: Real time signals from sensors</title>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.1/socket.io.js"></script>
+ 
 
   <script src="gauge.min.js"></script>
+ 
 
   <style>body{padding:0;margin:30;background:#fff}</style>
 </head>
+ 
 
 <body>  <!-- style="width:100%;height:100%"> -->
 <!-- Plotly chart will be drawn inside this DIV -->
@@ -17,28 +20,33 @@
     <!-- 1st gauge -->
     <canvas id="gauge1"> </canvas>  
     <!-- 2nd gauge -->
-    <canvas id="gauge2"> </canvas>  
+    <canvas id="gauge2"></canvas>
 </div>
+ 
 
-<h3 align="center"> on Time: <span id="time"> </span> </h3> 
+<h3 align="center"> on Time: <span id="time"> </span> </h3>
+ 
 
 <div id="myDiv"></div> <!-- graph here! -->
+ 
 
 <hr>
+ 
 
   <script>
   /* JAVASCRIPT CODE GOES HERE */
     var streamPlot = document.getElementById('myDiv');
     var ctime = document.getElementById('time');
-    
+   
     var tArray = [], // time of data arrival
         xTrack = [], // value of sensor 1 : temperature
-        yTrack = [],// value of sensor 2 : Luminosity
+        yTrack=[],  // value of sensor 2 : Luminosity
         numPts = 50, // number of data points in x-axis                
         dtda = [],  // 1 x 3 array : [date, data1, data2] from sensors
         preX = -1,
-        preY = -1,
+         preY= -1,
         initFlag = true;
+ 
 
     var socket = io.connect('http://localhost:3000'); // port = 3000  
     socket.on('connect', function () {
@@ -52,14 +60,16 @@
                 initFlag=false;
             }
             dtda[0]=msg[0];
-            dtda[1] = parseFloat(msg[1]); 
-            dtda[2] = parseInt(msg[2]); 
+            dtda[1] = parseFloat(msg[1]);
+            dtda[2] = parseInt(msg[2]);
+ 
 
-            // Only when any of temperature or Luminosity is different from 
+            // Only when any of temperature or Luminosity is different from
             // the previous one, the screen is redrawed.
             if (dtda[1] != preX || dtda[2] != preY) {  // any change?
                 preX = dtda[1];  
                 preY = dtda[2];
+ 
 
                 ctime.innerHTML = dtda[0];
                 gauge_temp.setValue(dtda[1])  // temp gauge
@@ -71,27 +81,30 @@
                 xTrack.splice(0, 1)  // remove the oldest data
                 yTrack = yTrack.concat(dtda[2])   // lux
                 yTrack.splice(0, 1)
+ 
 
                 var update = {
-                    x: [tArray, tArray],
-                    y: [xTrack, yTrack]
+                    x: [tArray,tArray],
+                    y: [xTrack,yTrack]
                 }
                 Plotly.update(streamPlot, update);
             }                    
         });
-    }); 
+    });
+ 
 
     function init() {  // initial screen ()
         // starting point : first data (temp, lux)
         for ( i = 0; i < numPts; i++) {
-            tArray.push(dtda[0]);  // date 
+            tArray.push(dtda[0]);  // date
             xTrack.push(dtda[1]);  // sensor 1 (temp)
             yTrack.push(dtda[2]);  // sensor 2 (lux)
         }
+ 
 
         Plotly.newPlot(streamPlot, data, layout);
     }
-    
+   
     // data
     var data = [{
         x : tArray,
@@ -99,37 +112,38 @@
         name : 'temperature',
         mode: "markers+lines",  // "lines+markers"
         line: {
-            color: "#1f77b4", 
+            color: "#1f77b4",
             width: 1
-        }, 
+        },
         marker: {
-            color: "rgb(255, 0, 0)", 
-            size: 6, 
+            color: "rgb(255, 0, 0)",
+            size: 6,
             line: {
-              color: "black", 
+              color: "black",
               width: 0.5
           }
       }
   }, {
-    x : xArray,
+    x : tArray,
     y : yTrack,
     name : 'luminosity',
     xaxis: 'x2',
     yaxis : 'y2',
         mode: "markers+lines",  // "lines+markers"
         line: {
-            color: "#1f77b4", 
+            color: "#1f77b4",
             width: 1
-        }, 
+        },
         marker: {
-            color: "rgb(0, 0, 255)", 
-            size: 6, 
+            color: "rgb(0, 0, 255)",
+            size: 6,
             line: {
-              color: "black", 
+              color: "black",
               width: 0.5
           }
       }
   }];
+ 
 
   var layout = {
     xaxis : {
@@ -152,6 +166,7 @@
         range : [0, 500]
     }
 };
+ 
 
      // gauge configuration
     var gauge_temp = new Gauge({
@@ -184,11 +199,12 @@
             title      : '#000',
             units      : '#f00',
             numbers    : '#777',
-            needle     : { start : 'rgba(240, 128, 128, 1)', 
+            needle     : { start : 'rgba(240, 128, 128, 1)',
             end : 'rgba(255, 160, 122, .9)' }
         }
     });
     gauge_temp.draw();
+ 
 
     var gauge_lux = new Gauge({
         renderTo    : 'gauge2',
@@ -217,11 +233,12 @@
             title      : '#fff',
             units      : '#ccc',
             numbers    : '#eee',
-            needle     : { start : 'rgba(240, 128, 128, 1)', 
+            needle     : { start : 'rgba(240, 128, 128, 1)',
             end : 'rgba(255, 160, 122, .9)' }
         }
     });
     gauge_lux.draw();
+ 
 
   </script>
 </body>

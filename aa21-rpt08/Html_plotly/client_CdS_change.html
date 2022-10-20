@@ -15,8 +15,7 @@
 <h1 align="center"> Real-time Luminosity(lux) from CdS sensor with Gauge</h1>
 <!-- Lux gauge -->
 <div align="center">
-    <canvas id='gauge'></canvas>
-    
+    <canvas id="gauge"></canvas>
 </div>
 
 <h3 align="center"> on Time: <span id="time"> </span> </h3> 
@@ -52,14 +51,13 @@
             dtda[0]=msg[0];
             dtda[1] = parseInt(msg[1]); 
 
-            // when new data is coming, keep on streaming data           
             if(dtda[1] != preX){
                 preX = dtda[1];
-            
+            }
+            // when new data is coming, keep on streaming data           
             ctime.innerHTML = dtda[0];
-            gauge_lux.setValue(dtda[1]);
-                 // Add lux gauge
-
+            gauge_lux.setValue(dtda[1]);     // Add lux gauge
+                 
             //nextPt();                                
             tArray = tArray.concat(dtda[0]);  // time
             tArray.splice(0,1);
@@ -72,7 +70,7 @@
             }
 
             Plotly.update(streamPlot, update);
-        }
+
         });
     }); 
 
@@ -115,7 +113,7 @@
         yaxis : {
             title : 'luminosity (lux)',
             domain : [0, 1],
-            Autorange : true
+            range : [0, 500]
         }
     };
 
@@ -125,8 +123,8 @@
         width       : 300,
         height      : 300,
         glow        : true,
-        units       : 'lux',
-        valueFormat : { int :2, dec : 0 },
+        units       : '',
+        valueFormat : { int :2 , dec :0  },
         title       : "Luminosity",
         minValue    : 0,
         maxValue    : 500,  // new
@@ -141,8 +139,8 @@
             { from : 400, to : 500, color : '#fff' }
         ],
         colors      : {
-            plate      : '#bbb',
-            majorTicks : '#ddd',
+            plate      : '#b41fa5',
+            majorTicks : '#f5f5f5',
             minorTicks : '#aaa',
             title      : '#fff',
             units      : '#ccc',
